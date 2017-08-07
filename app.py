@@ -283,8 +283,7 @@ def editCourse(level_name, course_name):
     # this checks that and prompts user with not authorized message
     if level.user_id != login_session['user_id']:
         return """<script>function myFunction() {
-                        alert('You are not authorized to edit this course.
-                        Please create your own course in order to edit.');
+                        alert('You are not authorized to edit this course.');
                         window.location = window.location.href.replace(
                         'edit/', '');}</script><body onload='myFunction()''>"""
     if request.method == 'POST':
@@ -322,8 +321,8 @@ def deleteCourse(level_name, course_name):
     if level.user_id != login_session['user_id']:
         return """<script>function myFunction() {
                         alert('You are not authorized to delete this course.');
-                        window.location = window.location.href.replace('
-                        delete/', '');}</script>
+                        window.location = window.location.href.replace(
+                        'delete/', '');}</script>
                         <body onload='myFunction()''>"""
     if request.method == 'POST':
         session.delete(course)
