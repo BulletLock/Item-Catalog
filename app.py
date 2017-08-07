@@ -281,7 +281,7 @@ def editCourse(level_name, course_name):
     course = session.query(Course).filter_by(name=course_name).one()
     # If user is in session but is not creator of course than
     # this checks that and prompts user with not authorized message
-    if level.user_id != login_session['user_id']:
+    if course.user_id != login_session['user_id']:
         return """<script>function myFunction() {
                         alert('You are not authorized to edit this course.');
                         window.location = window.location.href.replace(
@@ -318,7 +318,7 @@ def deleteCourse(level_name, course_name):
     course = session.query(Course).filter_by(name=course_name).one()
     # If user is in session but is not creator of course than
     # this checks that and prompts user with not authorized message
-    if level.user_id != login_session['user_id']:
+    if course.user_id != login_session['user_id']:
         return """<script>function myFunction() {
                         alert('You are not authorized to delete this course.');
                         window.location = window.location.href.replace(
