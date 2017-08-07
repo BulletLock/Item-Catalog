@@ -24,6 +24,7 @@ class Level(Base):
     name = Column(String(250), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    course = relationship('Course', cascade='all, delete-orphan')
 
     # We added this serialize function
     # to be able to send JSON objects in a serializable format
