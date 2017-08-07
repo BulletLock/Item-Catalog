@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 from database_setup import Base, Level, Course, User
+from functools import wraps
 import random
 import string
 import httplib2
@@ -30,6 +31,14 @@ CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Catalog App"
 
+# Login decorator for checking if user is logged in or not
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in login_session:
+            return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function
 
 # Create anti-forgery state token
 # Store it in the session for later validation.
@@ -243,10 +252,9 @@ def showCourse(level_name, course_name):
 
 # Create a new course
 @app.route('/course/new/', methods=['GET', 'POST'])
+@login_required
 def newCourse():
     """Creates a new course"""
-    if 'username' not in login_session:
-        return redirect('/login')
     if request.method == 'POST':
         level = session.query(Level).filter_by(
             name=request.form['level']).one()
@@ -266,12 +274,11 @@ def newCourse():
 
 # Edit existing course
 @app.route('/<level_name>/<course_name>/edit/', methods=['GET', 'POST'])
+@login_required
 def editCourse(level_name, course_name):
     """Edit an existing course"""
     level = session.query(Level).filter_by(name=level_name).one()
     course = session.query(Course).filter_by(name=course_name).one()
-    if 'username' not in login_session:
-        return redirect('/login')
     # If user is in session but is not creator of course than
     # this checks that and prompts user with not authorized message
     if level.user_id != login_session['user_id']:
@@ -305,12 +312,11 @@ def editCourse(level_name, course_name):
 
 # Delete existing course
 @app.route('/<level_name>/<course_name>/delete/', methods=['GET', 'POST'])
+@login_required
 def deleteCourse(level_name, course_name):
     """Delete an existing course"""
     level = session.query(Level).filter_by(name=level_name).one()
     course = session.query(Course).filter_by(name=course_name).one()
-    if 'username' not in login_session:
-        return redirect('/login')
     # If user is in session but is not creator of course than
     # this checks that and prompts user with not authorized message
     if level.user_id != login_session['user_id']:
