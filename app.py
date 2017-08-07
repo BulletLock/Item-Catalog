@@ -31,6 +31,7 @@ CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Catalog App"
 
+
 # Login decorator for checking if user is logged in or not
 def login_required(f):
     @wraps(f)
@@ -39,6 +40,7 @@ def login_required(f):
             return redirect('/login')
         return f(*args, **kwargs)
     return decorated_function
+
 
 # Create anti-forgery state token
 # Store it in the session for later validation.
@@ -273,7 +275,8 @@ def newCourse():
 
 
 # Edit existing course
-@app.route('/<path:level_name>/<path:course_name>/edit/', methods=['GET', 'POST'])
+@app.route('/<path:level_name>/<path:course_name>/edit/',
+           methods=['GET', 'POST'])
 @login_required
 def editCourse(level_name, course_name):
     """Edit an existing course"""
@@ -310,7 +313,8 @@ def editCourse(level_name, course_name):
 
 
 # Delete existing course
-@app.route('/<path:level_name>/<path:course_name>/delete/', methods=['GET', 'POST'])
+@app.route('/<path:level_name>/<path:course_name>/delete/',
+           methods=['GET', 'POST'])
 @login_required
 def deleteCourse(level_name, course_name):
     """Delete an existing course"""
