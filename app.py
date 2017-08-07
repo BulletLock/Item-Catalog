@@ -222,7 +222,7 @@ def showLevels():
 
 
 # Show existing course in a level
-@app.route('/<level_name>/')
+@app.route('/<path:level_name>/')
 def showLevel(level_name):
     """This renders courses present in particular category"""
     levels = session.query(Level).all()
@@ -237,7 +237,7 @@ def showLevel(level_name):
 
 
 # Show course info
-@app.route('/<level_name>/<course_name>/')
+@app.route('/<path:level_name>/<path:course_name>/')
 def showCourse(level_name, course_name):
     """Renders course information"""
     level = session.query(Level).filter_by(name=level_name).one()
@@ -273,7 +273,7 @@ def newCourse():
 
 
 # Edit existing course
-@app.route('/<level_name>/<course_name>/edit/', methods=['GET', 'POST'])
+@app.route('/<path:level_name>/<path:course_name>/edit/', methods=['GET', 'POST'])
 @login_required
 def editCourse(level_name, course_name):
     """Edit an existing course"""
@@ -310,7 +310,7 @@ def editCourse(level_name, course_name):
 
 
 # Delete existing course
-@app.route('/<level_name>/<course_name>/delete/', methods=['GET', 'POST'])
+@app.route('/<path:level_name>/<path:course_name>/delete/', methods=['GET', 'POST'])
 @login_required
 def deleteCourse(level_name, course_name):
     """Delete an existing course"""
@@ -342,7 +342,7 @@ def levelsJSON():
     return jsonify(levels=[level.serialize for level in levels])
 
 
-@app.route('/level/<level_name>/JSON/')
+@app.route('/level/<path:level_name>/JSON/')
 def levelJSON(level_name):
     """This outputs all the courses present
          in a particular level as json data"""
@@ -352,7 +352,7 @@ def levelJSON(level_name):
     return jsonify(course=[i.serialize for i in courses])
 
 
-@app.route('/level/<level_name>/<course_name>/JSON/')
+@app.route('/level/<path:level_name>/<path:course_name>/JSON/')
 def courseJSON(level_name, course_name):
     """This outputs particular course as json data"""
     level = session.query(Level).filter_by(name=level_name).one()
