@@ -265,6 +265,7 @@ def newCourse():
                            review=request.form['review'],
                            link=request.form['link'],
                            description=request.form['description'],
+                           user_id=login_session['user_id'],
                            level_id=level.id)
         session.add(newCourse)
         session.commit()
