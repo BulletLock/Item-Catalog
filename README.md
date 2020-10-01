@@ -1,4 +1,5 @@
 # Item Catalog Application
+##Read all the steps carefully
 ### _by Arvind Rathee_
 Item Catalog Application project, part of the Udacity [Full Stack Web Developer Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd004).
 ## About
